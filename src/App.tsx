@@ -237,7 +237,7 @@ export default function App() {
           <div className="lg:col-span-3 flex flex-col items-center lg:items-stretch gap-4 order-1 md:order-none">
             <div className="w-48 h-48 lg:w-full lg:h-auto aspect-square rounded-2xl overflow-hidden bg-slate-50 border border-slate-200/60 shadow-3xs relative group shrink-0">
               <img
-                src="/src/assets/images/abhishek_singla_headshot_1779714504579.png"
+                src="/src/assets/images/abhishek_singla_best_headshot_1779714915513.png"
                 alt="Abhishek Singla Headshot"
                 referrerPolicy="no-referrer"
                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
@@ -350,9 +350,17 @@ export default function App() {
           <div className="md:col-span-3">
             <span className="text-xs font-mono font-medium tracking-wide text-slate-400 uppercase">My Core Philosophy</span>
           </div>
-          <div className="md:col-span-9">
+          <div className="md:col-span-9 space-y-6">
             <div className="text-slate-600 text-sm sm:text-base leading-relaxed font-light space-y-4 whitespace-pre-line">
               {data.aboutMarkdown}
+            </div>
+            
+            {/* Elegant personal signature sign-off */}
+            <div className="pt-4 flex flex-col items-start gap-1 border-t border-slate-100 w-fit">
+              <span className="text-[9px] font-mono text-slate-400 uppercase tracking-widest">Sign-Off Verification</span>
+              <div className="font-signature text-4xl text-slate-900 select-none py-1 transform -rotate-1 origin-left">
+                Abhishek Singla
+              </div>
             </div>
           </div>
         </div>
