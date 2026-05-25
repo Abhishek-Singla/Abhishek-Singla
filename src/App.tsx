@@ -23,11 +23,14 @@ import {
   Smartphone,
   Server,
   Zap,
-  Calendar
+  Calendar,
+  Menu,
+  X
 } from "lucide-react";
 
 export default function App() {
   const [data, setData] = useState<PortfolioData>(defaultPortfolioData);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [formType, setFormType] = useState<"recruiter" | "partnership" | "general">("recruiter");
   const [formName, setFormName] = useState("");
   const [formEmail, setFormEmail] = useState("");
@@ -117,15 +120,16 @@ export default function App() {
             </span>
           </a>
 
+          {/* Desktop Links */}
           <div className="hidden md:flex items-center gap-6">
-            <a href="#about" className="text-xs font-semibold text-slate-550 hover:text-slate-950 tracking-wide transition-all">About</a>
-            <a href="#selected-work" className="text-xs font-semibold text-slate-550 hover:text-slate-950 tracking-wide transition-all">Selected Work</a>
-            <a href="#resume" className="text-xs font-semibold text-slate-550 hover:text-slate-950 tracking-wide transition-all">Resume</a>
-            <a href="#skills" className="text-xs font-semibold text-slate-550 hover:text-slate-950 tracking-wide transition-all">Core Skills</a>
-            <a href="#contact" className="text-xs font-semibold text-slate-550 hover:text-slate-950 tracking-wide transition-all">Contact</a>
+            <a href="#about" className="text-xs font-semibold text-slate-500 hover:text-slate-950 tracking-wide transition-all">About</a>
+            <a href="#selected-work" className="text-xs font-semibold text-slate-500 hover:text-slate-950 tracking-wide transition-all">Selected Work</a>
+            <a href="#resume" className="text-xs font-semibold text-slate-500 hover:text-slate-950 tracking-wide transition-all">Resume</a>
+            <a href="#skills" className="text-xs font-semibold text-slate-500 hover:text-slate-950 tracking-wide transition-all">Core Skills</a>
+            <a href="#contact" className="text-xs font-semibold text-slate-500 hover:text-slate-950 tracking-wide transition-all">Contact</a>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2.5">
             <a
               href={`mailto:${data.socials.email}`}
               className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-200 hover:border-slate-850 text-xs font-semibold text-slate-700 hover:text-slate-900 shadow-3xs transition-all"
@@ -135,32 +139,137 @@ export default function App() {
             </a>
             <a
               href="#contact"
-              className="px-3.5 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold tracking-wide shadow-xs transition-all"
+              className="hidden sm:inline-flex px-3.5 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold tracking-wide shadow-xs transition-all"
             >
               Get in Touch
             </a>
+
+            {/* Mobile hamburger button */}
+            <button
+              id="btn-mobile-menu-toggle"
+              type="button"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="md:hidden p-2 rounded-lg border border-slate-200 hover:border-slate-400 text-slate-700 transition-all"
+              aria-expanded={mobileMenuOpen}
+              aria-label="Toggle Navigation Menu"
+            >
+              {mobileMenuOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
+            </button>
           </div>
         </div>
+
+        {/* Mobile Dropdown Menu with AnimatePresence */}
+        <AnimatePresence>
+          {mobileMenuOpen && (
+            <motion.div
+              id="mobile-navigation-dropdown"
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.2 }}
+              className="md:hidden border-t border-slate-100 bg-white"
+            >
+              <div className="px-4 py-4 space-y-3 flex flex-col">
+                <a
+                  href="#about"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="text-xs font-semibold text-slate-600 hover:text-slate-950 py-1.5 border-b border-slate-50 transition-all"
+                >
+                  About
+                </a>
+                <a
+                  href="#selected-work"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="text-xs font-semibold text-slate-600 hover:text-slate-950 py-1.5 border-b border-slate-50 transition-all"
+                >
+                  Selected Work (BBPS Teardown)
+                </a>
+                <a
+                  href="#resume"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="text-xs font-semibold text-slate-600 hover:text-slate-950 py-1.5 border-b border-slate-50 transition-all"
+                >
+                  Resume
+                </a>
+                <a
+                  href="#skills"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="text-xs font-semibold text-slate-600 hover:text-slate-950 py-1.5 border-b border-slate-50 transition-all"
+                >
+                  Core Skills
+                </a>
+                <a
+                  href="#contact"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="text-xs font-semibold text-slate-600 hover:text-slate-950 py-1.5 transition-all"
+                >
+                  Contact
+                </a>
+
+                {/* Mobile direct CTAs */}
+                <div className="pt-3 flex items-center gap-3">
+                  <a
+                    href={`mailto:${data.socials.email}`}
+                    className="flex-1 text-center justify-center inline-flex items-center gap-1.5 px-3 py-2 rounded-lg border border-slate-200 text-xs font-semibold text-slate-700"
+                  >
+                    <Mail className="w-3.5 h-3.5" />
+                    Direct Email
+                  </a>
+                  <a
+                    href="#contact"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="flex-1 text-center justify-center inline-flex px-3.5 py-2 rounded-lg bg-slate-900 text-white text-xs font-bold"
+                  >
+                    Get in Touch
+                  </a>
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </nav>
 
       {/* 2. Brand Hero Container */}
       <header id="about" className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 md:pt-20 pb-16 space-y-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
-          {/* Hero text descriptor */}
-          <div className="lg:col-span-8 space-y-6">
+          
+          {/* A. Professional Headshot Column */}
+          <div className="lg:col-span-3 flex flex-col items-center lg:items-stretch gap-4 order-1 md:order-none">
+            <div className="w-48 h-48 lg:w-full lg:h-auto aspect-square rounded-2xl overflow-hidden bg-slate-50 border border-slate-200/60 shadow-3xs relative group shrink-0">
+              <img
+                src="/src/assets/images/abhishek_singla_headshot_1779714504579.png"
+                alt="Abhishek Singla Headshot"
+                referrerPolicy="no-referrer"
+                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-900/10 to-transparent pointer-events-none" />
+            </div>
+            
+            <div className="w-full text-center lg:text-left space-y-1 bg-white border border-slate-100 p-4 rounded-xl shadow-3xs">
+              <span className="text-[10px] font-mono uppercase text-slate-400 block tracking-wide">Current Focus</span>
+              <p className="text-xs text-slate-800 font-semibold font-sans">Core B2B Payments & Settlements</p>
+              <div className="inline-flex items-center gap-1.5 mt-2 px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-100/60 text-[9px] font-mono justify-center lg:justify-start">
+                <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                Active NPCI Biller Nodes
+              </div>
+            </div>
+          </div>
+
+          {/* B. Hero text descriptor */}
+          <div className="lg:col-span-5 space-y-6 order-2 md:order-none">
             <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-slate-50 border border-slate-200 text-[10px] font-mono font-medium text-slate-500 uppercase">
               <Zap className="w-3 h-3 text-amber-500 animate-pulse" />
               Highly Selective Placement Profile
             </div>
 
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-display font-medium text-slate-900 leading-tight tracking-tight">
+            <h1 className="text-4xl sm:text-5xl lg:text-5xl font-display font-medium text-slate-900 leading-tight tracking-tight">
               {data.name}
             </h1>
-            <h2 className="text-lg sm:text-xl md:text-2xl font-sans font-normal text-slate-500 leading-snug tracking-tight">
+            <h2 className="text-lg font-sans font-normal text-slate-500 leading-snug tracking-tight">
               {data.title} &mdash; <span className="text-slate-800 font-medium">{data.subtitle}</span>
             </h2>
 
-            <p className="text-base sm:text-lg text-slate-600 leading-relaxed font-light max-w-3xl">
+            <p className="text-base text-slate-600 leading-relaxed font-light">
               {data.bioSummary}
             </p>
 
@@ -173,18 +282,18 @@ export default function App() {
                 className="flex items-center gap-1.5 px-4 py-2 bg-[#0a66c2]/5 hover:bg-[#0a66c2]/10 text-[#0a66c2] rounded-xl text-xs font-bold tracking-wide transition-all border border-[#0a66c2]/10"
               >
                 <Linkedin className="w-4 h-4" />
-                Connect on LinkedIn
+                LinkedIn
               </a>
 
               <button
                 type="button"
                 onClick={handleCVDownload}
-                className="flex items-center gap-1.5 px-4 py-2 border border-slate-200 hover:border-slate-850 bg-white hover:bg-slate-50 rounded-xl text-xs font-bold text-slate-700 hover:text-slate-950 transition-all"
+                className="flex items-center gap-1.5 px-4 py-2 border border-slate-200 hover:border-slate-850 bg-white hover:bg-slate-50 rounded-xl text-xs font-bold text-slate-700 hover:text-slate-950 transition-all animate-none"
               >
                 {downloadProgress !== null ? (
                   <>
-                    <span className="animate-pulse">Parsing PDF {downloadProgress}%</span>
-                    <span className="w-2.5 h-2.5 rounded-full bg-slate-200 overflow-hidden relative">
+                    <span className="animate-pulse">PDF {downloadProgress}%</span>
+                    <span className="w-2 rounded-full bg-slate-200 overflow-hidden relative h-2">
                       <span
                         className="absolute inset-y-0 left-0 bg-slate-800 transition-all duration-100"
                         style={{ width: `${downloadProgress}%` }}
@@ -194,7 +303,7 @@ export default function App() {
                 ) : (
                   <>
                     <FileText className="w-4 h-4" />
-                    Secure Resume Request
+                    Resume Request
                   </>
                 )}
               </button>
@@ -209,8 +318,8 @@ export default function App() {
             </div>
           </div>
 
-          {/* Aggregate telemetry table card (Senior PM signature) */}
-          <div className="lg:col-span-4 bg-white border border-slate-100 rounded-2xl p-6 shadow-3xs space-y-4">
+          {/* C. Aggregate telemetry table card (Senior PM signature) */}
+          <div className="lg:col-span-4 bg-white border border-slate-100 rounded-2xl p-6 shadow-3xs space-y-4 order-3 md:order-none">
             <div className="border-b border-slate-100 pb-3 flex items-center justify-between">
               <span className="text-[10px] font-mono uppercase text-slate-400">Aggregate Impact Matrix</span>
               <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
