@@ -1,0 +1,8 @@
+# keep personal and confidential files out of this public repo
+*.feature
+*.pdf
+*.docx
+*.xlsx
+*.csv
+*.env
+.env*
